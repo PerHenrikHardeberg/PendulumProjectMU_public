@@ -3,6 +3,8 @@ clear; close all; clc;
 %JITENDRA SINGH. Found on his GITHUB:
 % https://github.com/jitendra825/Inverted-Pendulum-Simulink
 
+% Equations for our system is presented in the report.
+
 % Parameters from Our hardware:
 Mc = 0.540 + 0.048;% [kg]mass of cart
 l = 0.49; % [m] Pendelum length
@@ -22,11 +24,12 @@ Jm = 0.5*m_rotor*r_rotor^2;
 M = Mc+Jm/r^2;
 
 %Very rough estimate:
-c = 5; %[N/(m/s)] viscous friction cart. Tias
-b = 0.00001;% [Nm/rad/s]Viscous damping pendelum
-I = 0.00007;
+c = 20; %[N/(m/s)] viscous friction cart. Tias
+b = 0.0001;% [Nm/rad/s]Viscous damping pendelum
+I = 1/3*m*2*Lcg^2; % Uniform rod moment of inertia
 
-%Calculations from Jitendra for LQR params estimate
+
+%Calculations from Jitendra for LQR params estimate:
 AA = I*(M+m) + M*m*(l^2);
 aa = (((m*l)^2)*g)/AA;
 bb = ((I +m*(l^2))/AA)*(c + (kb*kt)/(Rm*(r^2)));
@@ -38,8 +41,9 @@ mm = ((I +m*(l^2))*kt)/(AA*Rm*r);
 nn = (m*l*kt)/(AA*Rm*r);
 A  =  [0 0 1 0; 0 0 0 1; 0 aa -bb -cc; 0 dd -ee -ff];
 B = [0;0; mm; nn]; 
-Q = diag([1 1 0 0]); % Investigate this and lqr function
-R  = 0.001;
+% Q and R are inspired by matlab example lqr:
+Q = diag([1 0 1 0]); % Based on Matlab example
+R  = 1; % Based on matlab example
 KK = lqr(A,B,Q,R)
 
 % after tuning with swing up active
