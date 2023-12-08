@@ -86,8 +86,7 @@ codegen/
 # Octave session info
 octave-workspace
 
-# Lists of data
-*.mat
+
 
 # Exported plots
 *.mldatx
