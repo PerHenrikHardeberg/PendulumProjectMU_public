@@ -42,7 +42,7 @@ nn = (m*l*kt)/(AA*Rm*r);
 A  =  [0 0 1 0; 0 0 0 1; 0 aa -bb -cc; 0 dd -ee -ff];
 B = [0;0; mm; nn]; 
 % Q and R are inspired by matlab example lqr:
-Q = diag([1 0 1 0]); % Based on Matlab example
+Q = diag([1 1 0 0]); % Based on Matlab example
 R  = 1; % Based on matlab example
 KK = lqr(A,B,Q,R)
 
